@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+    #   nodeSelector:
+        # name: vmi71989
+      containers:
+      - name: keycloak
+        image: $IMAGE
+        env:
+        - name: MYSQL_DATABASE
+          value: $MYSQL_DATABASE
+        - name: MYSQL_USER
+          value: $MYSQL_USER
+        - name: MYSQL_PASSWORD
+          value: $MYSQL_PASSWORD
+        - name: MYSQL_ADDR
+          value: $MYSQL_ADDR
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: keycloak_user
+        - name: KEYCLOAK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: keycloak_password
+        - name: KEYSTORE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak
+              key: keystore_password
+        ports:
+          - name: http
+            containerPort: 8080
+          - name: https
+            containerPort: 8443
+          - name: management
+            containerPort: 9990
