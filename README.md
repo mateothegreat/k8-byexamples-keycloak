@@ -38,15 +38,18 @@ Targets:
 ## Variables
 
 ```sh
-NS              	?= deploy-1
-APP             	?= keycloak
+NS                  ?= deploy-1
+APP                 ?= keycloak
+HOST                ?= keycloak.gcp.streaming-platform.com
 SERVICE_NAME        ?= keycloak
 SERVICE_PORT        ?= 8080
-HOST                ?= keycloak.gcp.streaming-platform.com
-KEYCLOAK_USER 		?= admin
-KEYCLOAK_PASSWORD 	?= admin
-KEYSTORE_PASSWORD 	?= secret
+
+KEYCLOAK_USER       ?= admin
+KEYCLOAK_PASSWORD   ?= admin
+KEYSTORE_PASSWORD   ?= secret
+
 IMAGE               ?= jboss/keycloak:latest
+
 MYSQL_DATABASE      ?= keycloak
 MYSQL_USER          ?= keycloak
 MYSQL_PASSWORD      ?= keycloak
