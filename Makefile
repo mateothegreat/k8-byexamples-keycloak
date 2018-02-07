@@ -6,9 +6,9 @@
 # /____                     matthewdavis.io, holla!
 #
 
-NS                  ?= deploy-1
+NS                  ?= infra
 APP                 ?= keycloak
-HOST                ?= keycloak.gcp.streaming-platform.com
+HOST                ?= keycloak.k8.yomateo.io
 SERVICE_NAME        ?= keycloak
 SERVICE_PORT        ?= 8080
 
@@ -21,14 +21,14 @@ IMAGE               ?= jboss/keycloak:latest
 MYSQL_DATABASE      ?= keycloak
 MYSQL_USER          ?= keycloak
 MYSQL_PASSWORD      ?= keycloak
-MYSQL_ADDR          ?= sandbox.streaming-platform.com
+MYSQL_ADDR          ?= mysql
 
 export
 
 ## Install all resources
-install:    install-deployment install-service install-ingress
+install:    secret-create install-deployment install-service install-ingress
 ## Delete all resources
-delete:     delete-deployment delete-service delete-ingress
+delete:     secret-delete delete-deployment delete-service delete-ingress
 
 ## Create authentication secret
 secret-create:
@@ -56,6 +56,8 @@ dump-%:
 ## Find first pod and follow log output
 logs:
 	kubectl --namespace $(NS) logs -f $(shell kubectl get pods --all-namespaces -lapp=$(APP) -o jsonpath='{.items[0].metadata.name}')
+describe:
+	kubectl --namespace $(NS) describe pod/$(shell kubectl get pods --all-namespaces -lapp=$(APP) -o jsonpath='{.items[0].metadata.name}')
 
 # Help Outputs
 GREEN  		:= $(shell tput -Txterm setaf 2)
