@@ -9,7 +9,7 @@ include .make/Makefile.inc
 
 NS                  ?= default
 APP                 ?= keycloak
-HOST                ?= keycloak.gcp.streaming-platform.com
+HOST                ?= keycloak.k8.yomateo.io
 SERVICE_NAME        ?= keycloak
 SERVICE_PORT        ?= 8080
 
