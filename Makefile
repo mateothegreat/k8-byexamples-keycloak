@@ -5,8 +5,9 @@
 #  \__, /\____/_/ /_/ /_/\__,_/\__/\___/\____/\__,_/
 # /____                     matthewdavis.io, holla!
 #
+include .make/Makefile.inc
 
-NS                  ?= infra
+NS                  ?= default
 APP                 ?= keycloak
 HOST                ?= keycloak.k8.yomateo.io
 SERVICE_NAME        ?= keycloak
@@ -26,9 +27,9 @@ MYSQL_ADDR          ?= mysql
 export
 
 ## Install all resources
-install:    secret-create install-deployment install-service install-ingress
+install:    secret-delete secret-create
 ## Delete all resources
-delete:     secret-delete delete-deployment delete-service delete-ingress
+delete:     secret-delete
 
 ## Create authentication secret
 secret-create:
@@ -39,42 +40,4 @@ secret-create:
 ## Delete authentication secret
 secret-delete:
 
-	@kubectl --namespace $(NS) delete secret keycloak
-
-# LIB
-install-%:
-	@envsubst < manifests/$*.yaml | kubectl --namespace $(NS) apply -f -
-
-delete-%:
-	@envsubst < manifests/$*.yaml | kubectl --namespace $(NS) delete --ignore-not-found -f -
-
-status-%:
-	@envsubst < manifests/$*.yaml | kubectl --namespace $(NS) rollout status -w -f -
-
-dump-%:
-	envsubst < manifests/$*.yaml
-## Find first pod and follow log output
-logs:
-	kubectl --namespace $(NS) logs -f $(shell kubectl get pods --all-namespaces -lapp=$(APP) -o jsonpath='{.items[0].metadata.name}')
-describe:
-	kubectl --namespace $(NS) describe pod/$(shell kubectl get pods --all-namespaces -lapp=$(APP) -o jsonpath='{.items[0].metadata.name}')
-
-# Help Outputs
-GREEN  		:= $(shell tput -Txterm setaf 2)
-YELLOW 		:= $(shell tput -Txterm setaf 3)
-WHITE  		:= $(shell tput -Txterm setaf 7)
-RESET  		:= $(shell tput -Txterm sgr0)
-help:
-
-	@echo "\nUsage:\n\n  ${YELLOW}make${RESET} ${GREEN}<target>${RESET}\n\nTargets:\n"
-	@awk '/^[a-zA-Z\-\_0-9]+:/ { \
-		helpMessage = match(lastLine, /^## (.*)/); \
-		if (helpMessage) { \
-			helpCommand = substr($$1, 0, index($$1, ":")-1); \
-			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-			printf "  ${YELLOW}%-20s${RESET} ${GREEN}%s${RESET}\n", helpCommand, helpMessage; \
-		} \
-	} \
-	{ lastLine = $$0 }' $(MAKEFILE_LIST)
-	@echo
-# EOLIB
+	@kubectl --namespace $(NS) delete secret keycloak | true
