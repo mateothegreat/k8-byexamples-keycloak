@@ -22,8 +22,7 @@ IMAGE               ?= jboss/keycloak:latest
 MYSQL_DATABASE      ?= keycloak
 MYSQL_USER          ?= keycloak
 MYSQL_PASSWORD      ?= keycloak
-MYSQL_ADDR          ?= mysql
-
+MYSQL_ADDR          ?= mysql.default.svc.cluster.local
 export
 
 ## Install all resources

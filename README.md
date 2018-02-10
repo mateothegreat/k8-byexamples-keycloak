@@ -22,17 +22,22 @@ Keycloak is configured to use a database backend for persistence (no persistentv
 ## Usage
 
 ```sh
-Usage:
-  make <target>
-Targets:
+$ make help
 
-  install              Install all resources
-  delete               Delete all resources
+Usage:
+
+  make <target>
+
+Targets:
 
   secret-create        Create authentication secret
   secret-delete        Delete authentication secret
-
   logs                 Find first pod and follow log output
+  manifests            Output manifests detected (used with make install, delete, get, describe, etc)
+  install              Installs manifests to kubernetes using kubectl apply (make manifests to see what will be installed)
+  delete               Deletes manifests to kubernetes using kubectl delete (make manifests to see what will be installed)
+  get                  Retrieves manifests to kubernetes using kubectl get (make manifests to see what will be installed)
+  describe             Describes manifests to kubernetes using kubectl describe (make manifests to see what will be installed)
 ```
 
 ## Variables
@@ -53,13 +58,13 @@ IMAGE               ?= jboss/keycloak:latest
 MYSQL_DATABASE      ?= keycloak
 MYSQL_USER          ?= keycloak
 MYSQL_PASSWORD      ?= keycloak
-MYSQL_ADDR          ?= sandbox.streaming-platform.com
+MYSQL_ADDR          ?= mysql.default.svc.cluster.local
 ```
 
 ## Installation Example
 
 ```sh
-$ make secret-create install status-deployment logs
+$ make secret-create install logs
 secret "keycloak" created
 deployment "keycloak" created
 service "keycloak" created
