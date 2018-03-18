@@ -15,7 +15,7 @@
 
 > k8 by example -- straight to the point, simple execution.
 
-Once you `make install` you will be able to reach your Keycloak UI via https://keycloak.deploy-1.svc.cluster.local (change namespace to fit).
+Once you `make install` you will be able to reach your Keycloak UI via the `Service` https://keycloak.deploy-1.svc.cluster.local (change namespace to fit). This also comes with an ingress -- get your cert on with https://github.com/mateothegreat/k8-byexamples-cert-manager!
 
 Keycloak is configured to use a database backend for persistence (no persistentvolumes needed!).
 
