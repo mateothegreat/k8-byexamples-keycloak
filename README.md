@@ -19,6 +19,12 @@ Once you `make install` you will be able to reach your Keycloak UI via the `Serv
 
 Keycloak is configured to use a database backend for persistence (no persistentvolumes needed!).
 
+
+## Use Keycloak with a reverse proxy
+
+Protect endpoints with a reverse proxy!
+Check https://github.com/mateothegreat/k8-byexamples-keycloak-proxy
+
 ## Usage
 
 ```sh
