@@ -15,13 +15,15 @@ spec:
       - name: keycloak
         image: $IMAGE
         env:
-        - name: MYSQL_DATABASE
+        - name: DB_VENDOR
+          value: MYSQL
+        - name: DB_DATABASE
           value: $MYSQL_DATABASE
-        - name: MYSQL_USER
+        - name: DB_USER
           value: $MYSQL_USER
-        - name: MYSQL_PASSWORD
+        - name: DB_PASSWORD
           value: $MYSQL_PASSWORD
-        - name: MYSQL_ADDR
+        - name: DB_ADDR
           value: $MYSQL_ADDR
         - name: KEYCLOAK_USER
           valueFrom:
